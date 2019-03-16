@@ -1,0 +1,1 @@
+# Docker_stack_wordpress
