@@ -1,0 +1,36 @@
+version: "3"
+services:
+  wordpress:
+    image: wordpress:php7.1-apache
+    ports:
+      - 8088:80
+    depends_on:
+      - dbcluster
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    environment:
+      WORDPRESS_DB_HOST: "dbcluster"
+      WORDPRESS_DB_NAME: "wordpress"
+      WORDPRESS_DB_USER: "wp"
+      WORDPRESS_DB_PASSWORD: "redhat123"
+  dbcluster:
+    image: mysql:5.7
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    environment:
+      DB_SERVICE_NAME: dbcluster 
+      MYSQL_ROOT_PASSWORD: redhat 
+      MYSQL_DATABASE: wordpress 
+      MYSQL_USER: wp 
+      MYSQL_PASSWORD: redhat123 
+
